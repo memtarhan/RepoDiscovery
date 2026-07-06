@@ -40,7 +40,9 @@ struct SearchView: View {
                 guard !viewModel.searchText.isEmpty else { return }
                 viewModel.performSearch(query: viewModel.searchText)
             }
-            
+            .navigationDestination(for: RepositoryModel.self) { repo in
+                DetailsView(repo: repo)
+            }
         }
     }
 
