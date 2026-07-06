@@ -172,6 +172,7 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2610;
 				LastUpgradeCheck = 2610;
+				ORGANIZATIONNAME = MEMTARHAN;
 				TargetAttributes = {
 					DBC9D68B2FFAFEA300DFBF25 = {
 						CreatedOnToolsVersion = 26.1;
