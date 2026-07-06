@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - Search Response
 
-struct RepositorySearchDTO: Codable {
+struct RepositorySearchDTO: Codable, Sendable {
     let totalCount: Int
     let items: [RepositoryDTO]
 
@@ -22,7 +22,7 @@ struct RepositorySearchDTO: Codable {
 
 // MARK: - Repository Response
 
-struct RepositoryDTO: Codable {
+struct RepositoryDTO: Codable, Sendable {
     let id: Int
     let name: String
     let description: String?
@@ -43,7 +43,7 @@ struct RepositoryDTO: Codable {
 
 // MARK: - Owner Response
 
-struct RepositoryOwnerDTO: Codable {
+struct RepositoryOwnerDTO: Codable, Sendable {
     let login: String
     let avatarUrl: String
 

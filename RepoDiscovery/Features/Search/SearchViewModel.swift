@@ -58,7 +58,7 @@ final class SearchViewModel {
         searchTask = Task {
             do {
                 // Debounce: Wait 0.5 seconds before hitting the network
-                try await Task.sleep(nanoseconds: 500000000)
+                try await Task.sleep(for: .seconds(0.5))
 
                 // If the user typed/deleted another letter during that 0.5s, this task was cancelled.
                 guard !Task.isCancelled else { return }

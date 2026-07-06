@@ -10,37 +10,37 @@ import SwiftUI
 
 struct RepositoryRowSkeleton: View {
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            // Avatar Placeholder
+        HStack(alignment: .top, spacing: AppTheme.Spacing.medium) {
+            // Avatar Placeholder using Theme Size and Color
             Circle()
-                .fill(Color.gray.opacity(0.3))
-                .frame(width: 50, height: 50)
+                .fill(AppTheme.Colors.skeletonBase)
+                .frame(width: AppTheme.AvatarSize.medium.rawValue, height: AppTheme.AvatarSize.medium.rawValue)
 
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: AppTheme.Spacing.regular) {
                 // Title Placeholder
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(Color.gray.opacity(0.3))
+                    .fill(AppTheme.Colors.skeletonBase)
                     .frame(height: 16)
                     .frame(maxWidth: 180)
 
                 // Description Placeholder (2 lines)
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(Color.gray.opacity(0.3))
+                    .fill(AppTheme.Colors.skeletonBase)
                     .frame(height: 12)
                     .frame(maxWidth: .infinity)
 
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(Color.gray.opacity(0.3))
+                    .fill(AppTheme.Colors.skeletonBase)
                     .frame(height: 12)
                     .frame(maxWidth: 220)
 
                 // Stats Placeholder
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(Color.gray.opacity(0.3))
+                    .fill(AppTheme.Colors.skeletonBase)
                     .frame(height: 12)
                     .frame(maxWidth: 100)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, AppTheme.Spacing.small)
     }
 }

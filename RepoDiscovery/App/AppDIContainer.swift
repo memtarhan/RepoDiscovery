@@ -18,7 +18,14 @@ final class AppDIContainer {
 
     init() {
         // 1. Initialize the lowest-level dependencies first
-        networkClient = DefaultNetworkClient()
+        // We explicitly configure the advanced network client to handle retries and exponential backoff
+        let networkConfig = NetworkConfiguration(maxRetries: 3, baseRetryDelay: 1.0)
+
+        networkClient = DefaultNetworkClient(
+            session: .shared,
+            decoder: JSONDecoder(),
+            configuration: networkConfig
+        )
 
         // 2. Inject them into higher-level services
         searchRepository = DefaultSearchRepository(networkClient: networkClient)

@@ -69,7 +69,10 @@ actor ImageCacheManager {
 
             // Save to Memory & Disk for future
             self.memoryCache.setObject(downloadedImage, forKey: cacheKey as NSString)
-            try? data.write(to: fileURL)
+            // Writing .atomic tells iOS to write the data to a temporary, hidden file first.
+            // Only when the write is 100% complete and verified does it swap it into the actual fileURL location.
+            // It eliminates the possibility of corrupted cache files.
+            try? data.write(to: fileURL, options: .atomic)
 
             return downloadedImage
         }

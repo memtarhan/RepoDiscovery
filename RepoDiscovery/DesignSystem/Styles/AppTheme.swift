@@ -18,6 +18,7 @@ enum AppTheme {
         static let background = Color(UIColor.systemBackground)
         static let surface = Color(UIColor.secondarySystemBackground)
         static let borderStandard = Color.gray.opacity(0.3)
+        static let skeletonBase = Color(UIColor.tertiarySystemFill)
     }
 
     /// Raw typography tokens (Easy to swap to a custom font here later)
