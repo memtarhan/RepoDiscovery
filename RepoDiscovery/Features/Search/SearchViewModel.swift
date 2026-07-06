@@ -35,11 +35,10 @@ final class SearchViewModel {
     private let repository: SearchRepository
     private var searchTask: Task<Void, Never>?
 
-    init(repository: SearchRepository = DefaultSearchRepository()) {
+    init(repository: SearchRepository) {
         self.repository = repository
     }
 
-    /// Called directly by the SwiftUI view whenever `searchText` changes
     func performSearch(query: String) {
         // 1. Cancel any in-flight search task immediately
         searchTask?.cancel()
@@ -53,20 +52,19 @@ final class SearchViewModel {
         }
 
         // 3. Spin up a new concurrent task
+        state = .loading
+
+        // 4. Spin up a new concurrent task
         searchTask = Task {
             do {
                 // Debounce: Wait 0.5 seconds before hitting the network
                 try await Task.sleep(nanoseconds: 500000000)
 
-                // If the user typed another letter during that 0.5s, this task was cancelled.
-                // We check for cancellation before proceeding to save resources.
+                // If the user typed/deleted another letter during that 0.5s, this task was cancelled.
                 guard !Task.isCancelled else { return }
-
-                state = .loading
 
                 let results = try await repository.searchRepositories(query: trimmedQuery)
 
-                // Check cancellation again before updating the UI
                 guard !Task.isCancelled else { return }
 
                 // Update state
@@ -75,7 +73,6 @@ final class SearchViewModel {
             } catch {
                 guard !Task.isCancelled else { return }
 
-                // Map our custom NetworkError or fallback to localized description
                 if let networkError = error as? NetworkError {
                     state = .error(networkError.localizedDescription)
                 } else {

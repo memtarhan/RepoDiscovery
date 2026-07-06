@@ -9,10 +9,11 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State private var viewModel = SearchViewModel()
+    @Bindable var viewModel: SearchViewModel
+    @Environment(SearchRouter.self) private var router
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: Bindable(router).path) {
             List {
                 switch viewModel.state {
                 case .idle:
@@ -21,9 +22,12 @@ struct SearchView: View {
                     loadingView
                 case let .loaded(repositories):
                     ForEach(repositories) { repo in
-                        NavigationLink(value: repo) {
+                        Button(action: {
+                            router.navigate(to: .detail(repo))
+                        }) {
                             RepositoryRow(repo: repo)
                         }
+                        .buttonStyle(.plain)
                     }
                 case let .error(message):
                     errorView(message: message)
@@ -40,8 +44,18 @@ struct SearchView: View {
                 guard !viewModel.searchText.isEmpty else { return }
                 viewModel.performSearch(query: viewModel.searchText)
             }
-            .navigationDestination(for: RepositoryModel.self) { repo in
-                DetailsView(repo: repo)
+            // Handle Routing Destinations
+            .navigationDestination(for: SearchRoute.self) { route in
+                switch route {
+                case let .detail(repo):
+                    DetailsView(repo: repo)
+                case let .web(url):
+                    WebView(url: url, onFinished: {
+                        router.navigateBack()
+                    })
+                    .ignoresSafeArea()
+                    .navigationBarHidden(true)
+                }
             }
         }
     }

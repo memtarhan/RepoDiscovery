@@ -10,6 +10,7 @@ import SwiftUI
 
 struct DetailsView: View {
     let repo: RepositoryModel
+    @Environment(SearchRouter.self) private var router
 
     var body: some View {
         ScrollView {
@@ -33,7 +34,9 @@ struct DetailsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .bottom) {
             if let url = repo.htmlUrl {
-                Link(destination: url) {
+                Button(action: {
+                    router.navigate(to: .web(url))
+                }) {
                     Label("Open in Safari", systemImage: "safari")
                 }
                 .buttonStyle(PrimaryButtonStyle())
