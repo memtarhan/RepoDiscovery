@@ -50,7 +50,7 @@ struct DetailsView: View {
 
     private var headerSection: some View {
         HStack(spacing: 16) {
-            AvatarView(url: repo.owner.avatarUrl, size: 80)
+            AvatarView(url: repo.owner.avatarUrl, size: .extraLarge)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(repo.name)

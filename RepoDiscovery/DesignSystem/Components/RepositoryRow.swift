@@ -13,7 +13,7 @@ struct RepositoryRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: AppTheme.Spacing.medium) {
-            AvatarView(url: repo.owner.avatarUrl, size: 50)
+            AvatarView(url: repo.owner.avatarUrl)
 
             VStack(alignment: .leading, spacing: AppTheme.Spacing.regular) {
                 Text(repo.name)

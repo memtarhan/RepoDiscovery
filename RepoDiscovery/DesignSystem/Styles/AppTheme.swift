@@ -17,6 +17,7 @@ enum AppTheme {
         static let brandAccent = Color.blue
         static let background = Color(UIColor.systemBackground)
         static let surface = Color(UIColor.secondarySystemBackground)
+        static let borderStandard = Color.gray.opacity(0.3)
     }
 
     /// Raw typography tokens (Easy to swap to a custom font here later)
@@ -37,5 +38,13 @@ enum AppTheme {
         static let medium: CGFloat = 16
         /// 24 pts - Large spacing to separate distinct conceptual blocks
         static let large: CGFloat = 24
+    }
+
+    /// Semantic sizes for all avatars across the platform
+    enum AvatarSize: CGFloat {
+        case small = 32
+        case medium = 48
+        case large = 64
+        case extraLarge = 120
     }
 }

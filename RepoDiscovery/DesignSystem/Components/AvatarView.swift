@@ -10,18 +10,22 @@ import SwiftUI
 
 struct AvatarView: View {
     let url: URL?
-    let size: CGFloat
+    var size: AppTheme.AvatarSize = .medium
 
     var body: some View {
-        AsyncImage(url: url) { image in
-            image.resizable()
+        CachedAsyncImage(url: url) { image in
+            image
+                .resizable()
                 .scaledToFill()
-
+                .frame(width: size.rawValue, height: size.rawValue)
+                .clipShape(Circle())
         } placeholder: {
-            Color.gray.opacity(0.3)
-                .overlay(ProgressView())
+            Circle()
+                .fill(AppTheme.Colors.surface)
+                .frame(width: size.rawValue, height: size.rawValue)
         }
-        .frame(width: size, height: size)
-        .clipShape(Circle())
+        .overlay(
+            Circle().stroke(AppTheme.Colors.borderStandard, lineWidth: 1)
+        )
     }
 }
