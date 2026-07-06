@@ -18,8 +18,14 @@ struct SearchView: View {
                 switch viewModel.state {
                 case .idle:
                     idleView
+
                 case .loading:
-                    loadingView
+                    ForEach(0 ..< 5, id: \.self) { _ in
+                        RepositoryRowSkeleton()
+                            .shimmering()
+                    }
+                    .listRowSeparator(.hidden)
+
                 case let .loaded(repositories):
                     ForEach(repositories) { repo in
                         Button(action: {
@@ -33,13 +39,12 @@ struct SearchView: View {
                     errorView(message: message)
                 }
             }
+            .animation(.default, value: viewModel.state)
             .navigationTitle("GitHub Repos")
             .searchable(text: $viewModel.searchText, prompt: "Search e.g., Swift")
-            // Trigger search when user types (debounced in the ViewModel)
             .onChange(of: viewModel.searchText) { _, newValue in
                 viewModel.performSearch(query: newValue)
             }
-            // Native Pull-to-Refresh
             .refreshable {
                 guard !viewModel.searchText.isEmpty else { return }
                 viewModel.performSearch(query: viewModel.searchText)
@@ -70,21 +75,21 @@ struct SearchView: View {
         )
     }
 
-    private var loadingView: some View {
-        HStack {
-            Spacer()
-            ProgressView("Searching...")
-                .padding()
-            Spacer()
-        }
-        .listRowBackground(Color.clear)
-    }
-
     private func errorView(message: String) -> some View {
-        ContentUnavailableView(
-            "Oops!",
-            systemImage: "exclamationmark.triangle",
-            description: Text(message)
-        )
+        ContentUnavailableView(label: {
+            Label("Oops!", systemImage: "exclamationmark.triangle")
+        }, description: {
+            Text(message)
+        }, actions: {
+            Button(action: {
+                viewModel.performSearch(query: viewModel.searchText)
+            }) {
+                Text("Try Again")
+                    .bold()
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .padding(.top, 8)
+        })
     }
 }
