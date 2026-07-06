@@ -12,17 +12,16 @@ struct RepositoryRow: View {
     let repo: RepositoryModel
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: AppTheme.Spacing.medium) {
             AvatarView(url: repo.owner.avatarUrl, size: 50)
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: AppTheme.Spacing.regular) {
                 Text(repo.name)
-                    .font(.headline)
+                    .textStyle(.subheader)
 
                 if let description = repo.description, !description.isEmpty {
                     Text(description)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .textStyle(.body)
                         .lineLimit(2)
                 }
 
@@ -32,10 +31,9 @@ struct RepositoryRow: View {
                     Label("\(repo.forksCount)", systemImage: "tuningfork")
                         .foregroundColor(.blue)
                 }
-                .font(.caption)
-                .bold()
+                .textStyle(.metadata)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, AppTheme.Spacing.small)
     }
 }

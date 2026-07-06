@@ -13,39 +13,32 @@ struct DetailsView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: AppTheme.Spacing.large) {
                 headerSection
                 statsSection
                 if let description = repo.description, !description.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("About")
-                            .font(.title2.bold())
+                            .textStyle(.subheader)
 
                         Text(description)
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .lineSpacing(4)
+                            .textStyle(.body)
                     }
                 }
 
                 Spacer(minLength: 40)
             }
-            .padding()
+            .padding(AppTheme.Spacing.medium)
         }
         .navigationBarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .bottom) {
             if let url = repo.htmlUrl {
                 Link(destination: url) {
                     Label("Open in Safari", systemImage: "safari")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(12)
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 8)
+                .buttonStyle(PrimaryButtonStyle())
+                .padding(.horizontal, AppTheme.Spacing.medium)
+                .padding(.bottom, AppTheme.Spacing.regular)
             }
         }
     }
@@ -58,11 +51,10 @@ struct DetailsView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(repo.name)
-                    .font(.title.bold())
+                    .textStyle(.header)
 
                 Text(repo.owner.login)
-                    .font(.title3)
-                    .foregroundColor(.secondary)
+                    .textStyle(.subheader)
             }
         }
     }
@@ -70,8 +62,10 @@ struct DetailsView: View {
     private var statsSection: some View {
         HStack(spacing: 12) {
             StatCard(title: "Stars", value: repo.stargazersCount, icon: "star.fill", color: .yellow)
-            StatCard(title: "Forks", value: repo.forksCount, icon: "arrow.y.branch", color: .blue)
+            StatCard(title: "Forks", value: repo.forksCount, icon: "tuningfork", color: .blue)
             StatCard(title: "Issues", value: repo.openIssuesCount, icon: "exclamationmark.circle", color: .red)
         }
+        // Force the HStack to measure its ideal height based on the tallest card
+        .fixedSize(horizontal: false, vertical: true)
     }
 }

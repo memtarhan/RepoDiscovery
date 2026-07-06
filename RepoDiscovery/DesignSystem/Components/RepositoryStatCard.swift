@@ -18,18 +18,16 @@ struct StatCard: View {
         GroupBox {
             VStack(spacing: 8) {
                 Image(systemName: icon)
-                    .font(.title2)
+                    .font(AppTheme.Typography.subheader)
                     .foregroundColor(color)
 
                 Text("\(value)")
-                    .font(.headline)
+                    .textStyle(.subheader)
 
                 Text(title)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    .textStyle(.metadata)
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
-
